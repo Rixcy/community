@@ -17,7 +17,9 @@ export const NavItem: React.VFC<NavItemProps> = (props) => {
 
   console.log({ router })
 
-  const isActive = active ?? router.pathname.startsWith(restProps.href)
+  const href = typeof restProps.href === "string" ? restProps.href : restProps.href.pathname
+
+  const isActive = active ?? router.pathname.startsWith(href)
 
   const classes = clsx(
     "hover:text-white px-3 py-2 rounded-md text-sm font-medium",

@@ -13,16 +13,18 @@ import LoginForm from "app/auth/components/LoginForm"
 import { Suspense } from "react"
 
 import "app/core/styles/index.css"
+import { Nav } from "app/core/components/Nav"
 
 export default function App({ Component, pageProps }: AppProps) {
   const getLayout = Component.getLayout || ((page) => page)
   const router = useRouter()
 
   return (
-    <>
+    <div className="min-h-screen bg-white flex flex-col">
       <Head>
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
       </Head>
+      <Nav />
       <Suspense fallback="Loading...">
         <ErrorBoundary
           FallbackComponent={RootErrorFallback}
@@ -32,7 +34,7 @@ export default function App({ Component, pageProps }: AppProps) {
           {getLayout(<Component {...pageProps} />)}
         </ErrorBoundary>
       </Suspense>
-    </>
+    </div>
   )
 }
 

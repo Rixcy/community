@@ -59,13 +59,17 @@ export function Form<S extends z.ZodType<any, any>>({
         {children}
 
         {formError && (
-          <div role="alert" style={{ color: "red" }}>
+          <div role="alert" className="text-red-600 text-sm mt-2">
             {formError}
           </div>
         )}
 
         {submitText && (
-          <button type="submit" disabled={ctx.formState.isSubmitting}>
+          <button
+            type="submit"
+            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 !mt-8"
+            disabled={ctx.formState.isSubmitting}
+          >
             {submitText}
           </button>
         )}

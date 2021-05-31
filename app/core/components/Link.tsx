@@ -1,21 +1,20 @@
-import type { LinkProps as NextLinkProps } from "next/link"
-import NextLink from "next/link"
+import { Link as BlitzLink, LinkProps as BlitzLinkProps, RouteUrlObject } from "blitz"
 
 export type LinkProps = Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "children" | "href"> & {
-  nextLinkProps?: Omit<NextLinkProps, "href">
+  blitzLinkProps?: Omit<BlitzLinkProps, "href">
   children: React.ReactNode
-  href: string
+  href: string | RouteUrlObject
 }
 
 export const Link: React.VFC<LinkProps> = (props) => {
-  const { href, nextLinkProps, children, ...restProps } = props
+  const { href, blitzLinkProps, children, ...restProps } = props
 
-  const hasHttp = href.startsWith("http")
+  const hasHttp = typeof href === "string" && href.startsWith("http")
 
   // https://css-tricks.com/all-about-mailto-links/#open-in-new-tab-sometimes-does-matter
-  const isMailToLink = href.startsWith("mailto:")
+  const isMailToLink = typeof href === "string" && href.startsWith("mailto:")
 
-  const isTelLink = href.startsWith("tel:")
+  const isTelLink = typeof href === "string" && href.startsWith("tel:")
 
   const externalProps =
     hasHttp || isMailToLink
@@ -26,12 +25,12 @@ export const Link: React.VFC<LinkProps> = (props) => {
       : null
 
   return hasHttp || isMailToLink || isTelLink || href === "#" ? (
-    <a href={href} {...externalProps} {...restProps}>
+    <a href={typeof href === "string" ? href : href.pathname} {...externalProps} {...restProps}>
       {children}
     </a>
   ) : (
-    <NextLink href={href} passHref {...nextLinkProps}>
+    <BlitzLink href={href} passHref {...blitzLinkProps}>
       <a {...restProps}>{children}</a>
-    </NextLink>
+    </BlitzLink>
   )
 }

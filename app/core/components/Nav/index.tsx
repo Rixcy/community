@@ -4,19 +4,31 @@ import { SearchIcon } from "@heroicons/react/solid"
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline"
 import { NavItem } from "./NavItem"
 import { LinkProps } from "../Link"
+import { Routes, useRouter } from "@blitzjs/core"
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ")
 }
 
 const NavItems: LinkProps[] = [
-  { children: "Dashboard", href: "/" },
+  { children: "Dashboard", href: Routes.Home() },
   { children: "Team", href: "/team" },
-  { children: "Communities", href: "/communities" },
+  { children: "Communities", href: Routes.CommunitiesPage() },
   { children: "Calendar", href: "/calendar" },
 ]
 
-export const Nav = () => {
+export type NavProps = {
+  /**
+   * Whether or not to show a restricted version of the nav without user profile etc.
+   */
+  restricted?: boolean
+}
+
+export const Nav: React.VFC<NavProps> = (props) => {
+  const { restricted } = props
+
+  const router = useRouter()
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -38,9 +50,12 @@ export const Nav = () => {
                 </div>
                 <div className="hidden lg:block lg:ml-6">
                   <div className="flex space-x-4">
-                    {NavItems.map((item) => {
-                      const dashboardLinkProps = item.href === "/" ? { active: true } : null
-                      return <NavItem key={item.href} {...item} {...dashboardLinkProps} />
+                    {NavItems.map((item, index) => {
+                      const href = typeof item.href === "string" ? item.href : item.href.pathname
+
+                      const dashboardLinkProps =
+                        href === "/" ? { active: router.pathname === "/" } : null
+                      return <NavItem key={`nav-item-${index}`} {...item} {...dashboardLinkProps} />
                     })}
                   </div>
                 </div>
@@ -108,7 +123,7 @@ export const Nav = () => {
                         >
                           <Menu.Items
                             static
-                            className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                            className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-10"
                           >
                             <Menu.Item>
                               {({ active }) => (
