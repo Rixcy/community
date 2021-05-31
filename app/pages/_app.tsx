@@ -24,8 +24,8 @@ export default function App({ Component, pageProps }: AppProps) {
       <Head>
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
       </Head>
-      <Nav />
       <Suspense fallback="Loading...">
+        <Nav />
         <ErrorBoundary
           FallbackComponent={RootErrorFallback}
           resetKeys={[router.asPath]}
