@@ -15,8 +15,6 @@ export const NavItem: React.VFC<NavItemProps> = (props) => {
 
   const router = useRouter()
 
-  console.log({ router })
-
   const href = typeof restProps.href === "string" ? restProps.href : restProps.href.pathname
 
   const isActive = active ?? router.pathname.startsWith(href)
@@ -24,6 +22,31 @@ export const NavItem: React.VFC<NavItemProps> = (props) => {
   const classes = clsx(
     "hover:text-white px-3 py-2 rounded-md text-sm font-medium",
     { "bg-gray-900 text-white": isActive, "text-gray-300 hover:bg-gray-700": !isActive },
+    className
+  )
+
+  return (
+    <Link className={classes} {...restProps}>
+      {children}
+    </Link>
+  )
+}
+
+export const MobileNavItem: React.VFC<NavItemProps> = (props) => {
+  const { children, className, active, ...restProps } = props
+
+  const router = useRouter()
+
+  const href = typeof restProps.href === "string" ? restProps.href : restProps.href.pathname
+
+  const isActive = active ?? router.pathname.startsWith(href)
+
+  const classes = clsx(
+    "block px-3 py-2 rounded-md text-base font-medium",
+    {
+      "bg-gray-900 text-white": isActive,
+      "text-gray-300 hover:bg-gray-700 hover:text-white": !isActive,
+    },
     className
   )
 

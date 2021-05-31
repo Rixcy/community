@@ -1,8 +1,8 @@
-import { Fragment } from "react"
+import { Fragment, useRef } from "react"
 import { Disclosure, Menu, Transition } from "@headlessui/react"
 import { SearchIcon } from "@heroicons/react/solid"
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline"
-import { NavItem } from "./NavItem"
+import { MobileNavItem, NavItem } from "./NavItem"
 import { LinkProps } from "../Link"
 import { Routes, useRouter } from "@blitzjs/core"
 
@@ -17,17 +17,10 @@ const NavItems: LinkProps[] = [
   { children: "Calendar", href: "/calendar" },
 ]
 
-export type NavProps = {
-  /**
-   * Whether or not to show a restricted version of the nav without user profile etc.
-   */
-  restricted?: boolean
-}
-
-export const Nav: React.VFC<NavProps> = (props) => {
-  const { restricted } = props
-
+export const Nav: React.VFC = () => {
   const router = useRouter()
+
+  const closeButton = useRef<HTMLButtonElement | null>(null)
 
   return (
     <Disclosure as="nav" className="bg-gray-800">
@@ -81,7 +74,10 @@ export const Nav: React.VFC<NavProps> = (props) => {
               </div>
               <div className="flex lg:hidden">
                 {/* Mobile menu button */}
-                <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                <Disclosure.Button
+                  className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                  ref={closeButton}
+                >
                   <span className="sr-only">Open main menu</span>
                   {open ? (
                     <XIcon className="block h-6 w-6" aria-hidden="true" />
@@ -176,31 +172,22 @@ export const Nav: React.VFC<NavProps> = (props) => {
 
           <Disclosure.Panel className="lg:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1">
-              {/* Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" */}
-              <a
-                href="#"
-                className="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium"
-              >
-                Dashboard
-              </a>
-              <a
-                href="#"
-                className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-              >
-                Team
-              </a>
-              <a
-                href="#"
-                className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-              >
-                Projects
-              </a>
-              <a
-                href="#"
-                className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-              >
-                Calendar
-              </a>
+              {NavItems.map((item, index) => {
+                const href = typeof item.href === "string" ? item.href : item.href.pathname
+
+                const dashboardLinkProps = href === "/" ? { active: router.pathname === "/" } : null
+                return (
+                  <MobileNavItem
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      closeButton.current?.click()
+                    }}
+                    key={`mobile-nav-item-${index}`}
+                    {...item}
+                    {...dashboardLinkProps}
+                  />
+                )
+              })}
             </div>
             <div className="pt-4 pb-3 border-t border-gray-700">
               <div className="flex items-center px-5">
