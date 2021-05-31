@@ -14,7 +14,7 @@ const Layout = ({ title, children }: LayoutProps) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="flex-1">{children}</div>
+      <div className="flex flex-col flex-1">{children}</div>
     </>
   )
 }
