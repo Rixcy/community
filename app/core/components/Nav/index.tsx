@@ -4,7 +4,9 @@ import { SearchIcon } from "@heroicons/react/solid"
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline"
 import { MobileNavItem, NavItem } from "./NavItem"
 import { LinkProps } from "../Link"
-import { Routes, useRouter } from "@blitzjs/core"
+import { Routes, useMutation, useRouter } from "@blitzjs/core"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
+import logout from "app/auth/mutations/logout"
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ")
@@ -21,6 +23,9 @@ export const Nav: React.VFC = () => {
   const router = useRouter()
 
   const closeButton = useRef<HTMLButtonElement | null>(null)
+
+  const currentUser = useCurrentUser()
+  const [logoutMutation] = useMutation(logout)
 
   return (
     <Disclosure as="nav" className="bg-gray-800">
@@ -155,6 +160,9 @@ export const Nav: React.VFC = () => {
                                     active ? "bg-gray-100" : "",
                                     "block px-4 py-2 text-sm text-gray-700"
                                   )}
+                                  onClick={async () => {
+                                    await logoutMutation()
+                                  }}
                                 >
                                   Sign out
                                 </a>
@@ -200,7 +208,7 @@ export const Nav: React.VFC = () => {
                 </div>
                 <div className="ml-3">
                   <div className="text-base font-medium text-white">Tom Cook</div>
-                  <div className="text-sm font-medium text-gray-400">tom@example.com</div>
+                  <div className="text-sm font-medium text-gray-400">{currentUser?.email}</div>
                 </div>
                 <button className="ml-auto flex-shrink-0 bg-gray-800 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                   <span className="sr-only">View notifications</span>
@@ -223,6 +231,9 @@ export const Nav: React.VFC = () => {
                 <a
                   href="#"
                   className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
+                  onClick={async () => {
+                    await logoutMutation()
+                  }}
                 >
                   Sign out
                 </a>
