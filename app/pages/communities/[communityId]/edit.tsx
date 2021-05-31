@@ -4,6 +4,7 @@ import Layout from "app/core/layouts/Layout"
 import getCommunity from "app/communities/queries/getCommunity"
 import updateCommunity from "app/communities/mutations/updateCommunity"
 import { CommunityForm, FORM_ERROR } from "app/communities/components/CommunityForm"
+import { Container } from "app/core/components/Container"
 
 export const EditCommunity = () => {
   const router = useRouter()
@@ -51,7 +52,7 @@ export const EditCommunity = () => {
 
 const EditCommunityPage: BlitzPage = () => {
   return (
-    <div>
+    <Container>
       <Suspense fallback={<div>Loading...</div>}>
         <EditCommunity />
       </Suspense>
@@ -61,7 +62,7 @@ const EditCommunityPage: BlitzPage = () => {
           <a>Communities</a>
         </Link>
       </p>
-    </div>
+    </Container>
   )
 }
 

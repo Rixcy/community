@@ -1,7 +1,10 @@
 import { Suspense } from "react"
-import { Head, Link, usePaginatedQuery, useRouter, BlitzPage, Routes } from "blitz"
+import { Head, usePaginatedQuery, useRouter, BlitzPage, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getCommunities from "app/communities/queries/getCommunities"
+import { Container } from "app/core/components/Container"
+import { Heading } from "app/core/components/Heading"
+import { Link } from "app/core/components/Link"
 
 const ITEMS_PER_PAGE = 100
 
@@ -18,12 +21,12 @@ export const CommunitiesList = () => {
   const goToNextPage = () => router.push({ query: { page: page + 1 } })
 
   return (
-    <Layout title="Communities">
+    <>
       <ul>
         {communities.map((community) => (
           <li key={community.id}>
             <Link href={Routes.ShowCommunityPage({ communityId: community.id })}>
-              <a>{community.name}</a>
+              {community.name}
             </Link>
           </li>
         ))}
@@ -35,7 +38,7 @@ export const CommunitiesList = () => {
       <button disabled={!hasMore} onClick={goToNextPage}>
         Next
       </button>
-    </Layout>
+    </>
   )
 }
 
@@ -46,7 +49,8 @@ const CommunitiesPage: BlitzPage = () => {
         <title>Communities</title>
       </Head>
 
-      <div>
+      <Heading title="Communities" rightActions={<RightActions />} />
+      <Container>
         <p>
           <Link href={Routes.NewCommunityPage()}>
             <a>Create Community</a>
@@ -56,7 +60,7 @@ const CommunitiesPage: BlitzPage = () => {
         <Suspense fallback={<div>Loading...</div>}>
           <CommunitiesList />
         </Suspense>
-      </div>
+      </Container>
     </>
   )
 }
@@ -65,3 +69,12 @@ CommunitiesPage.authenticate = true
 CommunitiesPage.getLayout = (page) => <Layout>{page}</Layout>
 
 export default CommunitiesPage
+
+const RightActions = () => (
+  <Link
+    href={Routes.NewCommunityPage()}
+    className="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-500 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500"
+  >
+    Create
+  </Link>
+)

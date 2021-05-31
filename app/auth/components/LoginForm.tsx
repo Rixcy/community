@@ -17,11 +17,7 @@ export const LoginForm = (props: LoginFormProps) => {
       <div className="flex-1 flex flex-col justify-start md:justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
         <div className="mx-auto w-full max-w-sm lg:w-96">
           <div>
-            <img
-              className="h-12 w-auto"
-              src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-              alt="Workflow"
-            />
+            <img className="h-12 w-auto" src="/community-logo-small.svg" alt="Community" />
             <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
             <p className="mt-2 text-sm text-gray-600">
               Or{" "}
@@ -133,10 +129,16 @@ export const LoginForm = (props: LoginFormProps) => {
                   }
                 }}
               >
-                <LabeledTextField name="email" label="Email" placeholder="Email" />
+                <LabeledTextField
+                  name="email"
+                  label="Email"
+                  placeholder="Email"
+                  autoComplete="email"
+                />
                 <LabeledTextField
                   name="password"
                   label="Password"
+                  autoComplete="current-password"
                   placeholder="Password"
                   type="password"
                 />
@@ -148,7 +150,7 @@ export const LoginForm = (props: LoginFormProps) => {
       <div className="hidden lg:block relative w-0 flex-1">
         <img
           className="absolute inset-0 h-full w-full object-cover"
-          src="https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1908&q=80"
+          src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1908&q=80"
           alt=""
         />
       </div>

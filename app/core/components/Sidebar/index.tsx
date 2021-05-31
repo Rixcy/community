@@ -21,8 +21,9 @@ import {
   UserGroupIcon,
   XIcon,
 } from "@heroicons/react/outline"
-import { usePaginatedQuery } from "@blitzjs/core"
+import { Router, Routes, usePaginatedQuery } from "@blitzjs/core"
 import getCommunities from "app/communities/queries/getCommunities"
+import { Link } from "../Link"
 
 const navigation = [
   { name: "Home", href: "#", icon: HomeIcon, current: true },
@@ -75,13 +76,13 @@ export const Sidebar: React.VFC = () => {
           </p>
           <div className="mt-3 space-y-2" aria-labelledby="communities-headline">
             {communities.map((community) => (
-              <a
+              <Link
                 key={community.name}
-                href={"#"}
+                href={Routes.ShowCommunityPage({ communityId: community.id })}
                 className="group flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50"
               >
                 <span className="truncate">{community.name}</span>
-              </a>
+              </Link>
             ))}
           </div>
         </div>

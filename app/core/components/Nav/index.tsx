@@ -3,7 +3,7 @@ import { Disclosure, Menu, Transition } from "@headlessui/react"
 import { SearchIcon } from "@heroicons/react/solid"
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline"
 import { MobileNavItem, NavItem } from "./NavItem"
-import { LinkProps } from "../Link"
+import { Link, LinkProps } from "../Link"
 import { Routes, useMutation, useRouter } from "@blitzjs/core"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import logout from "app/auth/mutations/logout"
@@ -16,7 +16,7 @@ const NavItems: LinkProps[] = [
   { children: "Dashboard", href: Routes.Home() },
   { children: "Team", href: "/team" },
   { children: "Communities", href: Routes.CommunitiesPage() },
-  { children: "Calendar", href: "/calendar" },
+  { children: "Login", href: "/login" },
 ]
 
 export const Nav: React.VFC = () => {
@@ -35,16 +35,18 @@ export const Nav: React.VFC = () => {
             <div className="relative flex items-center justify-between h-16">
               <div className="flex items-center px-2 lg:px-0">
                 <div className="flex-shrink-0">
-                  <img
-                    className="block lg:hidden h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
-                    alt="Workflow"
-                  />
-                  <img
-                    className="hidden lg:block h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
-                    alt="Workflow"
-                  />
+                  <Link href="/">
+                    <img
+                      className="block lg:hidden h-8 w-auto"
+                      src="/community-logo-small.svg"
+                      alt="Workflow"
+                    />
+                    <img
+                      className="hidden lg:block h-8 w-auto"
+                      src="/community-logo-white.svg"
+                      alt="Workflow"
+                    />
+                  </Link>
                 </div>
                 <div className="hidden lg:block lg:ml-6">
                   <div className="flex space-x-4">
