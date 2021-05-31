@@ -6,6 +6,7 @@ import {
   AuthorizationError,
   ErrorFallbackProps,
   useQueryErrorResetBoundary,
+  Head,
 } from "blitz"
 import { ErrorBoundary } from "react-error-boundary"
 import LoginForm from "app/auth/components/LoginForm"
@@ -18,15 +19,20 @@ export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
 
   return (
-    <Suspense fallback="Loading...">
-      <ErrorBoundary
-        FallbackComponent={RootErrorFallback}
-        resetKeys={[router.asPath]}
-        onReset={useQueryErrorResetBoundary().reset}
-      >
-        {getLayout(<Component {...pageProps} />)}
-      </ErrorBoundary>
-    </Suspense>
+    <>
+      <Head>
+        <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+      </Head>
+      <Suspense fallback="Loading...">
+        <ErrorBoundary
+          FallbackComponent={RootErrorFallback}
+          resetKeys={[router.asPath]}
+          onReset={useQueryErrorResetBoundary().reset}
+        >
+          {getLayout(<Component {...pageProps} />)}
+        </ErrorBoundary>
+      </Suspense>
+    </>
   )
 }
 
