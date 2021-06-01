@@ -5,39 +5,40 @@ import getCommunities from "app/communities/queries/getCommunities"
 import { Container } from "app/core/components/Container"
 import { Heading } from "app/core/components/Heading"
 import { Link } from "app/core/components/Link"
+import { Pagination } from "app/core/components/Pagination"
 
-const ITEMS_PER_PAGE = 100
+const ITEMS_PER_PAGE = 10
 
 export const CommunitiesList = () => {
   const router = useRouter()
-  const page = Number(router.query.page) || 0
-  const [{ communities, hasMore }] = usePaginatedQuery(getCommunities, {
+  const page = Number(router.query.page) || 1
+  const [{ communities, hasMore, count }] = usePaginatedQuery(getCommunities, {
     orderBy: { id: "asc" },
     skip: ITEMS_PER_PAGE * page,
     take: ITEMS_PER_PAGE,
   })
 
-  const goToPreviousPage = () => router.push({ query: { page: page - 1 } })
-  const goToNextPage = () => router.push({ query: { page: page + 1 } })
-
   return (
     <>
-      <ul>
-        {communities.map((community) => (
-          <li key={community.id}>
-            <Link href={Routes.ShowCommunityPage({ communityId: community.id })}>
-              {community.name}
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <div className="flex-1">
+        cc
+        <ul>
+          {communities.map((community) => (
+            <li key={community.id}>
+              <Link href={Routes.ShowCommunityPage({ communityId: community.id })}>
+                {community.name}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
 
-      <button disabled={page === 0} onClick={goToPreviousPage}>
-        Previous
-      </button>
-      <button disabled={!hasMore} onClick={goToNextPage}>
-        Next
-      </button>
+      <Pagination
+        currentIndex={page}
+        totalPages={10}
+        prevLink={Routes.CommunitiesPage({ page: page - 1 })}
+        nextLink={Routes.CommunitiesPage({ page: page + 1 })}
+      />
     </>
   )
 }
@@ -50,13 +51,7 @@ const CommunitiesPage: BlitzPage = () => {
       </Head>
 
       <Heading title="Communities" rightActions={<RightActions />} />
-      <Container>
-        <p>
-          <Link href={Routes.NewCommunityPage()}>
-            <a>Create Community</a>
-          </Link>
-        </p>
-
+      <Container className="flex flex-col flex-1 pb-8">
         <Suspense fallback={<div>Loading...</div>}>
           <CommunitiesList />
         </Suspense>
