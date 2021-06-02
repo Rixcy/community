@@ -30,7 +30,7 @@ export const Community = () => {
     <>
       <Heading
         title={community.name}
-        rightActions={<LinkButton href={Routes.NewCommunityPage()}>Cancel</LinkButton>}
+        rightActions={<LinkButton href={Routes.CommunitiesPage()}>Back</LinkButton>}
         bottomActions={
           <div className="mt-2 flex items-center text-sm text-gray-400">
             <CalendarIcon
