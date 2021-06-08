@@ -34,7 +34,7 @@ export const SignupForm = (props: SignupFormProps) => {
             <Form
               submitText="Create Account"
               schema={Signup}
-              initialValues={{ email: "", password: "", firstName: "", lastName: "" }}
+              initialValues={{ email: "", password: "", name: "" }}
               onSubmit={async (values) => {
                 try {
                   await signupMutation(values)
@@ -56,16 +56,10 @@ export const SignupForm = (props: SignupFormProps) => {
                 autoComplete="email"
               />
               <LabeledTextField
-                name="firstName"
-                label="First Name"
-                placeholder="Joe"
-                autoComplete="given-name"
-              />
-              <LabeledTextField
-                name="lastName"
-                label="Last Name"
-                placeholder="Bloggs"
-                autoComplete="family-name"
+                name="name"
+                label="Name"
+                placeholder="Joe Bloggs"
+                autoComplete="name"
               />
               <LabeledTextField
                 name="password"

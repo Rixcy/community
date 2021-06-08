@@ -103,8 +103,8 @@ export const Nav: React.VFC = () => {
                           <Menu.Button className="bg-gray-800 rounded-full flex text-sm text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                             <span className="sr-only">Open user menu</span>
                             <img
-                              className="h-8 w-8 rounded-full"
-                              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                              className="h-8 w-8 rounded-full bg-white"
+                              src={`https://robohash.org/${currentUser?.name || 1}`}
                               alt=""
                             />
                           </Menu.Button>
@@ -125,28 +125,28 @@ export const Nav: React.VFC = () => {
                           >
                             <Menu.Item>
                               {({ active }) => (
-                                <a
-                                  href="#"
+                                <Link
+                                  href={Routes.ShowUserPage({ userId: currentUser!.id })}
                                   className={classNames(
                                     active ? "bg-gray-100" : "",
                                     "block px-4 py-2 text-sm text-gray-700"
                                   )}
                                 >
                                   Your Profile
-                                </a>
+                                </Link>
                               )}
                             </Menu.Item>
                             <Menu.Item>
                               {({ active }) => (
-                                <a
-                                  href="#"
+                                <Link
+                                  href={Routes.EditUserPage({ userId: currentUser!.id })}
                                   className={classNames(
                                     active ? "bg-gray-100" : "",
                                     "block px-4 py-2 text-sm text-gray-700"
                                   )}
                                 >
                                   Settings
-                                </a>
+                                </Link>
                               )}
                             </Menu.Item>
                             <Menu.Item>
