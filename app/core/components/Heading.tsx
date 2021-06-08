@@ -1,6 +1,6 @@
 import { Container } from "./Container"
 
-type HeadingProps = {
+export type HeadingProps = {
   title: string
   rightActions?: React.ReactNode
   bottomActions?: React.ReactNode

@@ -6,7 +6,7 @@ import deleteCommunity from "app/communities/mutations/deleteCommunity"
 import { Container } from "app/core/components/Container"
 import { Heading } from "app/core/components/Heading"
 import { LinkButton } from "app/core/components/LinkButton"
-import { CalendarIcon } from "@heroicons/react/solid"
+import { CalendarIcon, ChevronLeftIcon } from "@heroicons/react/solid"
 import formatRelative from "date-fns/formatRelative"
 import subDays from "date-fns/subDays"
 
@@ -30,7 +30,12 @@ export const Community = () => {
     <>
       <Heading
         title={community.name}
-        rightActions={<LinkButton href={Routes.CommunitiesPage()}>Back</LinkButton>}
+        rightActions={
+          <LinkButton href={Routes.CommunitiesPage()}>
+            <ChevronLeftIcon className="-ml-0.5 mr-2 h-4 w-4" aria-hidden="true" />
+            Communities
+          </LinkButton>
+        }
         bottomActions={
           <div className="mt-2 flex items-center text-sm text-gray-400">
             <CalendarIcon

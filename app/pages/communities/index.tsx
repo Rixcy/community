@@ -6,28 +6,27 @@ import { Container } from "app/core/components/Container"
 import { Heading } from "app/core/components/Heading"
 import { Link } from "app/core/components/Link"
 import { Pagination } from "app/core/components/Pagination"
+import format from "date-fns/format"
 
-const ITEMS_PER_PAGE = 1
+const ITEMS_PER_PAGE = 10
 
 export const CommunitiesList = () => {
   const router = useRouter()
   const page = Number(router.query.page) || 1
-  const [{ communities, hasMore, count }] = usePaginatedQuery(getCommunities, {
+  const [{ communities, count }] = usePaginatedQuery(getCommunities, {
     orderBy: { id: "asc" },
     skip: ITEMS_PER_PAGE * (page - 1),
     take: ITEMS_PER_PAGE,
   })
 
-  console.log({ count })
-
   return (
     <>
-      <div className="flex-1 flex flex-col w-full">
+      <div className="flex-1 flex flex-col w-full mb-8">
         <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
             <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
               <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-indigo-500 text-white">
+                <thead className="bg-indigo-400 text-white">
                   <tr>
                     <th
                       scope="col"
@@ -39,19 +38,13 @@ export const CommunitiesList = () => {
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
                     >
-                      Title
+                      Website
                     </th>
                     <th
                       scope="col"
                       className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
                     >
-                      Email
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
-                    >
-                      Role
+                      Created
                     </th>
                     <th scope="col" className="relative px-6 py-3">
                       <span className="sr-only">Edit</span>
@@ -75,21 +68,32 @@ export const CommunitiesList = () => {
                       </td>
                     </tr>
                   )}
-                  {communities.map((community) => (
-                    <tr key={community.id}>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {community.name}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">stuff</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">stff</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">stuff</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                          Edit
-                        </a>
-                      </td>
-                    </tr>
-                  ))}
+                  {communities.map((community) => {
+                    const createdAtText = format(new Date(community.createdAt), "do LLL yyyy")
+                    return (
+                      <tr key={community.id}>
+                        <Link href={Routes.ShowCommunityPage({ communityId: community.id })}>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 hover:underline">
+                            {community.name}
+                          </td>
+                        </Link>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {community.websiteUrl || "-"}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {createdAtText}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                          <Link
+                            href={Routes.EditCommunityPage({ communityId: community.id })}
+                            className="text-indigo-600 hover:text-indigo-900"
+                          >
+                            Edit
+                          </Link>
+                        </td>
+                      </tr>
+                    )
+                  })}
                 </tbody>
               </table>
             </div>
@@ -99,7 +103,7 @@ export const CommunitiesList = () => {
 
       <Pagination
         currentIndex={page}
-        totalPages={count}
+        totalPages={Math.round(count / ITEMS_PER_PAGE)}
         prevLink={Routes.CommunitiesPage({ page: page - 1 })}
         nextLink={Routes.CommunitiesPage({ page: page + 1 })}
       />

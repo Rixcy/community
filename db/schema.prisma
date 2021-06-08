@@ -65,8 +65,12 @@ model Token {
 // }
 
 model Community {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  name      String
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  name       String
+  twitterUrl String?
+  discordUrl String?
+  websiteUrl String?
+  avatarUrl  String?
 }

@@ -7,16 +7,11 @@ import { Link, LinkProps } from "../Link"
 import { Routes, useMutation, useRouter } from "@blitzjs/core"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import logout from "app/auth/mutations/logout"
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ")
-}
+import { classNames } from "app/core/utils/classnames"
 
 const NavItems: LinkProps[] = [
   { children: "Dashboard", href: Routes.Home() },
-  { children: "Team", href: "/team" },
   { children: "Communities", href: Routes.CommunitiesPage() },
-  { children: "Login", href: "/login" },
 ]
 
 export const Nav: React.VFC = () => {
@@ -51,7 +46,7 @@ export const Nav: React.VFC = () => {
                 <div className="hidden lg:block lg:ml-6">
                   <div className="flex space-x-4">
                     {NavItems.map((item, index) => {
-                      const href = typeof item.href === "string" ? item.href : item.href.pathname
+                      const href = typeof item.href === "string" ? item.href : item.href?.pathname
 
                       const dashboardLinkProps =
                         href === "/" ? { active: router.pathname === "/" } : null
@@ -183,7 +178,7 @@ export const Nav: React.VFC = () => {
           <Disclosure.Panel className="lg:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1">
               {NavItems.map((item, index) => {
-                const href = typeof item.href === "string" ? item.href : item.href.pathname
+                const href = typeof item.href === "string" ? item.href : item.href?.pathname
 
                 const dashboardLinkProps = href === "/" ? { active: router.pathname === "/" } : null
                 return (
