@@ -8,6 +8,7 @@ import { Routes, useMutation, useRouter } from "@blitzjs/core"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import logout from "app/auth/mutations/logout"
 import { classNames } from "app/core/utils/classnames"
+import { CreateButton } from "app/core/components/CreateButton"
 
 const NavItems: LinkProps[] = [
   { children: "Dashboard", href: Routes.Home() },
@@ -52,6 +53,7 @@ export const Nav: React.VFC = () => {
                         href === "/" ? { active: router.pathname === "/" } : null
                       return <NavItem key={`nav-item-${index}`} {...item} {...dashboardLinkProps} />
                     })}
+                    <CreateButton />
                   </div>
                 </div>
               </div>

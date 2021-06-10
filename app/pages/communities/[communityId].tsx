@@ -31,10 +31,15 @@ export const Community = () => {
       <Heading
         title={community.name}
         rightActions={
-          <LinkButton href={Routes.CommunitiesPage()}>
-            <ChevronLeftIcon className="-ml-0.5 mr-2 h-4 w-4" aria-hidden="true" />
-            Communities
-          </LinkButton>
+          <>
+            <LinkButton href={Routes.CommunitiesPage()}>
+              <ChevronLeftIcon className="-ml-0.5 mr-2 h-4 w-4" aria-hidden="true" />
+              Communities
+            </LinkButton>
+            <LinkButton secondary href={Routes.EditCommunityPage({ communityId: community.id })}>
+              Edit
+            </LinkButton>
+          </>
         }
         bottomActions={
           <div className="mt-2 flex items-center text-sm text-gray-400">
@@ -47,7 +52,7 @@ export const Community = () => {
         }
       />
       <Head>
-        <title>Community {community.id}</title>
+        <title>{community.name}</title>
       </Head>
 
       <Container>
@@ -86,6 +91,6 @@ const ShowCommunityPage: BlitzPage = () => {
 }
 
 ShowCommunityPage.authenticate = true
-ShowCommunityPage.getLayout = (page) => <Layout>{page}</Layout>
+ShowCommunityPage.getLayout = (page) => <Layout t>{page}</Layout>
 
 export default ShowCommunityPage

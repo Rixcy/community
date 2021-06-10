@@ -5,6 +5,9 @@ import getCommunity from "app/communities/queries/getCommunity"
 import updateCommunity from "app/communities/mutations/updateCommunity"
 import { CommunityForm, FORM_ERROR } from "app/communities/components/CommunityForm"
 import { Container } from "app/core/components/Container"
+import { Heading } from "app/core/components/Heading"
+import { LinkButton } from "app/core/components/LinkButton"
+import { ChevronLeftIcon } from "@heroicons/react/solid"
 
 export const EditCommunity = () => {
   const router = useRouter()
@@ -15,13 +18,20 @@ export const EditCommunity = () => {
   return (
     <>
       <Head>
-        <title>Edit Community {community.id}</title>
+        <title>Edit {community.name}</title>
       </Head>
 
-      <div>
-        <h1>Edit Community {community.id}</h1>
-        <pre>{JSON.stringify(community)}</pre>
+      <Heading
+        title={`Edit ${community.name}`}
+        rightActions={
+          <LinkButton href={Routes.ShowCommunityPage({ communityId: community.id })}>
+            <ChevronLeftIcon className="-ml-0.5 mr-2 h-4 w-4" aria-hidden="true" />
+            Back
+          </LinkButton>
+        }
+      />
 
+      <Container>
         <CommunityForm
           submitText="Update Community"
           // TODO use a zod schema for form validation
@@ -45,24 +55,16 @@ export const EditCommunity = () => {
             }
           }}
         />
-      </div>
+      </Container>
     </>
   )
 }
 
 const EditCommunityPage: BlitzPage = () => {
   return (
-    <Container>
-      <Suspense fallback={<div>Loading...</div>}>
-        <EditCommunity />
-      </Suspense>
-
-      <p>
-        <Link href={Routes.CommunitiesPage()}>
-          <a>Communities</a>
-        </Link>
-      </p>
-    </Container>
+    <Suspense fallback={<div>Loading...</div>}>
+      <EditCommunity />
+    </Suspense>
   )
 }
 

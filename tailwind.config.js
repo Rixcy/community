@@ -2,7 +2,10 @@ const defaultTheme = require("tailwindcss/defaultTheme")
 
 module.exports = {
   mode: "jit",
-  purge: ["{pages,app}/**/*.{js,ts,jsx,tsx}"],
+  purge: {
+    content: ["{pages,app}/**/*.{js,ts,jsx,tsx}"],
+    preserveHtmlElements: true,
+  },
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
